@@ -1,0 +1,32 @@
+{
+    "files.associations": {
+        "lcd_conf.h": "c",
+        "main.h": "c",
+        "cmsis_os.h": "c",
+        "lv_demo_stress.h": "c",
+        "lv_port_disp.h": "c",
+        "usart.h": "c",
+        "lcd_io.h": "c",
+        "lcd_os.h": "c",
+        "freertos.h": "c",
+        "ili9341.h": "c",
+        "spi.h": "c",
+        "string": "c",
+        "string_view": "c",
+        "stdbool.h": "c",
+        "display_app.h": "c",
+        "deque": "c",
+        "queue": "c",
+        "vector": "c",
+        "array": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "stm32f4xx.h": "c",
+        "custom_bus.h": "c",
+        "tsc2046.h": "c",
+        "lv_timer.h": "c",
+        "tim.h": "c",
+        "lv_port_indev.h": "c",
+        "lvgl.h": "c"
+    }
+}
