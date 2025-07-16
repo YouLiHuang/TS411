@@ -1,3 +1,10 @@
+/*
+ * @Author: YouLiHuang huangyouli.scut@gmail.com
+ * @Date: 2025-07-16 16:15:19
+ * @LastEditors: YouLiHuang huangyouli.scut@gmail.com
+ * @LastEditTime: 2025-07-16 16:55:24
+ * @FilePath: \MDK-ARMi:\learning\LVGL\TS411\Drivers\BSP\Components\TSC2046\tsc2046.c
+ */
 #include "tsc2046.h"
 #include "main.h"
 
@@ -13,7 +20,12 @@ static void TSC2046_Port_CS_output(CS_LEVEL cs_level);
 static void TSC2046_Port_Send_bytes(uint8_t *data, uint16_t len);
 static void TSC2046_Port_Recv_bytes(uint8_t *data, uint16_t len);
 static void TSC2046_Port_Send_Recv_bytes(uint8_t *data_Send, uint8_t *data_Recv, uint16_t len);
-
+/**
+ * @brief scan api
+ * 
+ * @return true 
+ * @return false 
+ */
 static bool TSC2046_Port_Press_scan(void)
 {
     if (HAL_GPIO_ReadPin(TSIRQ_GPIO_Port, TSIRQ_Pin) == GPIO_PIN_RESET)
@@ -21,6 +33,12 @@ static bool TSC2046_Port_Press_scan(void)
     else
         return false;
 }
+
+/**
+ * @brief cs io control api
+ * 
+ * @param cs_level 
+ */
 static void TSC2046_Port_CS_output(CS_LEVEL cs_level)
 {
     if (cs_level == CS_HIGH)
@@ -28,6 +46,13 @@ static void TSC2046_Port_CS_output(CS_LEVEL cs_level)
     else if (cs_level == CS_LOW)
         HAL_GPIO_WritePin(TCS_GPIO_Port, TCS_Pin, GPIO_PIN_RESET);
 }
+
+/**
+ * @brief send one byte api
+ * 
+ * @param data 
+ * @param len 
+ */
 static void TSC2046_Port_Send_bytes(uint8_t *data, uint16_t len)
 {
     /*your code here*/
@@ -35,6 +60,13 @@ static void TSC2046_Port_Send_bytes(uint8_t *data, uint16_t len)
         HAL_SPI_Transmit(&hspi3, data, len, 100);
 }
 
+
+/**
+ * @brief internal api
+ * 
+ * @param data 
+ * @param len 
+ */
 static void TSC2046_Port_Recv_bytes(uint8_t *data, uint16_t len)
 {
     /*your code here*/
@@ -42,6 +74,13 @@ static void TSC2046_Port_Recv_bytes(uint8_t *data, uint16_t len)
         HAL_SPI_Receive(&hspi3, data, len, 100);
 }
 
+/**
+ * @brief internal api
+ * 
+ * @param data_Send buffer of the data to be send
+ * @param data_Recv buffer to receive data from tsc2046
+ * @param len 
+ */
 static void TSC2046_Port_Send_Recv_bytes(uint8_t *data_Send, uint8_t *data_Recv, uint16_t len)
 {
     /*your code here*/
@@ -49,17 +88,33 @@ static void TSC2046_Port_Send_Recv_bytes(uint8_t *data_Send, uint8_t *data_Recv,
         HAL_SPI_TransmitReceive(&hspi3, data_Send, data_Recv, len, 100);
 }
 
+/**
+ * @brief get current driver
+ * 
+ * @return TSC2046_Drv* 
+ */
 TSC2046_Drv *BSP_TSC2046Drv_request(void)
 {
     return &TSC2046_driver;
 }
 
+/**
+ * @brief get infomation of current screen
+ * 
+ * @return TSC2046_Device_info* 
+ */
 TSC2046_Device_info *BSP_TSC2046_info_get(void)
 {
     TSC2046_Drv *Drv = BSP_TSC2046Drv_request();
     return Drv->info;
 }
 
+/**
+ * @brief tsc2046 driver initialization
+ * 
+ * @return true 
+ * @return false 
+ */
 bool BSP_TSC2046_init(void)
 {
     TSC2046_Drv *Drv = BSP_TSC2046Drv_request();
@@ -78,6 +133,14 @@ bool BSP_TSC2046_init(void)
     return true;
 }
 
+
+/**
+ * @brief read one byte from tsc2046
+ * 
+ * @param pos 
+ * @return true 
+ * @return false 
+ */
 bool BSP_TSC2046_read(coordinate *pos)
 {
     TSC2046_Drv *Drv = BSP_TSC2046Drv_request();
@@ -117,6 +180,13 @@ bool BSP_TSC2046_read(coordinate *pos)
     return true;
 }
 
+/**
+ * @brief get coodinate in scan mode
+ * 
+ * @param pos 
+ * @return true 
+ * @return false 
+ */
 bool BSP_TSC2046_scan(coordinate *pos)
 {
 
@@ -149,6 +219,12 @@ bool BSP_TSC2046_scan(coordinate *pos)
     return ret;
 }
 
+/**
+ * @brief check if screen is pressed
+ * 
+ * @return true 
+ * @return false 
+ */
 bool BSP_TSC2046_press(void)
 {
     if (HAL_GPIO_ReadPin(TSIRQ_GPIO_Port, TSIRQ_Pin) == GPIO_PIN_RESET)
